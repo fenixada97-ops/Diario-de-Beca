@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Diário de Beca - Fotos Frufru</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+    margin:0;
+    font-family: Georgia, serif;
+    background: linear-gradient(135deg, #ffcee4, #ffe0b2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Diário */
+.diary-container {
+    width: 650px;
+    height: 750px;
+    background: #fffdf6;
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+    border: 4px dashed #f7c6d5;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.page.hidden {
+    opacity: 0;
+    transform: translateX(50px);
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.page h2 {
+    color: #b22234;
+    margin-top: 0;
+    font-size: 2rem;
+}
+
+.page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 20px 40px; /* espaço interno */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column; /* coluna: título, imagem, legenda */
+    justify-content: center; /* centraliza verticalmente */
+    align-items: center; /* centraliza horizontalmente */
+    overflow: hidden; /* remove scroll */
+    text-align: center;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.page img {
+    max-width: 100%;
+    max-height: 60%; /* garante espaço para legenda */
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    margin-bottom: 16px; /* separa legenda da imagem */
+}
+
+.page p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin: 0; /* remove margem para não empurrar a legenda */
+}
+
+/* Botões */
+.controls {
+    position: absolute;
+    bottom: 24px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 24px;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.btn {
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    color: #b22234;
+    border: 2px solid #b22234;
+    padding: 12px 28px;
+    border-radius: 32px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2), 0 0 8px rgba(255,192,203,0.4) inset;
+    transition: all 0.3s ease;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.6);
+}
+
+.btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.25), 0 0 12px rgba(255,182,193,0.5) inset;
+}
+
+.page-number {
+    font-size: 1.1rem;
+    color: #b22234;
+    font-weight: bold;
+}
+
+/* Bichinhos animados */
+.bichinho {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 10%;
+    background-size: cover;
+    animation: andar 8s linear infinite alternate;
+}
+
+.bichinho1 { background-image: url('fotos/bichinho1.png'); }
+.bichinho2 { background-image: url('fotos/bichinho2.png'); top: 70%; animation-duration: 10s; }
+
+@keyframes andar {
+    0% { left: -60px; transform: scaleX(1); }
+    50% { left: calc(100% - 50px); transform: scaleX(1); }
+    100% { left: -60px; transform: scaleX(1); }
+}
+</style>
+</head>
+<body>
+
+<div class="diary-container" id="diary">
+    </div>
+
+<div class="bichinho bichinho1"></div>
+<div class="bichinho bichinho2"></div>
+
+<script>
+    const imageFiles = [
+        "1 (1151).jpg",
+        "1 (2193).jpg",
+        "1 (2194).jpg",
+        "1 (2195).jpg",
+        "1 (2318).jpg",
+        "2a62a1c4-24dc-463a-a84a-758d515e21a3.jpg",
+        "20240705_162718.jpg",
+        "20240719_210525.jpg",
+        "20240919_201220.jpg",
+        "B84F399F-7C69-410B-B538-976ADF94947F.jpg",
+        "DB80E2F9-507B-4939-B214-B8775C02D217.jpg",
+        "EEB5E7AC-4F7A-4213-B1CD-A4A98DCB67D9.jpg",
+        "foto1.jpg",
+        "IMG_7344.jpg",
+        "IMG_8548.png",
+        "IMG_20240721_110535_345.jpg",
+        "IMG_20240721_110535_480.jpg",
+        "IMG_20240721_110535_596.jpg",
+        "IMG_20240627-WA0088.jpg",
+        "IMG_20240706-WA0067.jpg",
+        "IMG_20240721-WA0198.jpg",
+        "IMG_20240721-WA0199.jpg",
+        "IMG_20240721-WA0201.jpg",
+        "IMG_20240721-WA0202.jpg",
+        "IMG_20240721-WA0203.jpg",
+        "IMG_20240721-WA0204.jpg",
+        "IMG_20240721-WA0205.jpg",
+        "IMG_20240723-WA0028.jpg",
+        "IMG_20240723-WA0029.jpg",
+        "IMG_20240723-WA0030.jpg",
+        "IMG_20240801-WA0071.jpg",
+        "IMG_20240817-WA0053.jpg",
+        "IMG_20240830-WA0046.jpg",
+        "Point Blur_Aug082024_223314.jpg"
+    ];
+
+    const diaryContainer = document.getElementById('diary');
+
+    // Remove as páginas de exemplo do HTML para que o JS possa criar todas
+    diaryContainer.innerHTML = "";
+
+    // Adiciona a página de capa estática
+    const coverPage = document.createElement('div');
+    coverPage.classList.add('page');
+    coverPage.innerHTML = `
+        <h2>💖 Diário de Beca 💖</h2>
+        <img src="fotos/foto1.jpg" alt="Foto da página 1">
+        <p>Bem-vinda ao nosso diário mágico! 📖✨</p>
+    `;
+    diaryContainer.appendChild(coverPage);
+
+    // Itera sobre o array de fotos e cria as páginas dinamicamente
+    imageFiles.forEach(fileName => {
+        const page = document.createElement('div');
+        page.classList.add('page', 'hidden');
+        page.innerHTML = `
+            <img src="fotos/${fileName}" alt="Foto: ${fileName}">
+            <p>Um momento especial para nós! 💕</p>
+        `;
+        diaryContainer.appendChild(page);
+    });
+
+    // Adiciona o bloco de controles no final
+    const controls = document.createElement('div');
+    controls.classList.add('controls');
+    controls.innerHTML = `
+        <button class="btn" id="prev">⬅️ Página anterior</button>
+        <span class="page-number" id="page-number">1 / ${imageFiles.length + 1}</span>
+        <button class="btn" id="next">Próxima página ➡️</button>
+    `;
+    diaryContainer.appendChild(controls);
+
+    // Seleciona os elementos e inicia a lógica
+    const pages = Array.from(document.querySelectorAll('.page'));
+    const pageNumberEl = document.getElementById('page-number');
+    let current = 0;
+
+    function showPage(index){
+        pages.forEach((p,i)=>{
+            p.classList.toggle('hidden', i !== index);
+        });
+        pageNumberEl.textContent = `${index + 1} / ${pages.length}`;
+    }
+
+    document.getElementById('next').addEventListener('click', () => {
+        if(current < pages.length - 1){
+            current++;
+            showPage(current);
+        }
+    });
+
+    document.getElementById('prev').addEventListener('click', () => {
+        if(current > 0){
+            current--;
+            showPage(current);
+        }
+    });
+
+    // Garante que a primeira página seja exibida corretamente ao carregar
+    showPage(0);
+</script>
+
+</body>
+</html>
